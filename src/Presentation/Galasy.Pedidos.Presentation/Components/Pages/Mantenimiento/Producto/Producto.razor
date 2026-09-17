@@ -1,0 +1,198 @@
+@page "/mantenimiento/producto"
+@rendermode InteractiveServer
+@using Galasy.Pedidos.Business.Interfaces
+@using Galasy.Pedidos.Entities
+@using Galasy.Pedidos.Repositories.Interfaces
+@using ProductoEntidad = Galasy.Pedidos.Entities.Producto
+@inject IProductoService ProductoService
+@inject IMaestroDetalleRepository MaestroDetalleRepository
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<PageTitle>Productos</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4">
+    <MudBreadcrumbs Items="_breadcrumbs" Class="mb-4" />
+
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-6">
+        <div>
+            <MudText Typo="Typo.h4">Productos</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">
+                Consulte y administre los productos registrados.
+            </MudText>
+        </div>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick="AbrirCrear">
+            Nuevo producto
+        </MudButton>
+    </MudStack>
+
+    <MudPaper Elevation="1" Class="pa-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+            <MudText Typo="Typo.h6">Listado de productos</MudText>
+            <MudChip T="string" Color="Color.Default" Variant="Variant.Outlined">@(_productos.Count) registros</MudChip>
+        </MudStack>
+
+        @if (_cargando)
+        {
+            <MudProgressLinear Color="Color.Primary" Class="mb-2" />
+        }
+
+        <MudTable Items="_productos" Hover="true" Striped="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Nombre</MudTh>
+                <MudTh>Marca</MudTh>
+                <MudTh>Categoría</MudTh>
+                <MudTh>Precio</MudTh>
+                <MudTh>Stock</MudTh>
+                <MudTh>Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+                <MudTd DataLabel="Marca">@(_marcas.FirstOrDefault(m => m.Id == context.IdMarcaMae)?.Valor ?? "-")</MudTd>
+                <MudTd DataLabel="Categoría">@(_categorias.FirstOrDefault(c => c.Id == context.IdCategoriaMae)?.Valor ?? "-")</MudTd>
+                <MudTd DataLabel="Precio">S/. @context.PrecioUnitario.ToString("N2")</MudTd>
+                <MudTd DataLabel="Stock">@context.Stock</MudTd>
+                <MudTd DataLabel="Acciones">
+                    @if (_pendienteEliminarId == context.Id)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.Check"
+                                       Color="Color.Error"
+                                       Size="Size.Small"
+                                       aria-label="Confirmar eliminacion"
+                                       OnClick="@(() => EliminarProducto(context.Id))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                       Size="Size.Small"
+                                       aria-label="Cancelar"
+                                       OnClick="@(() => _pendienteEliminarId = 0)" />
+                    }
+                    else
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                       Color="Color.Primary"
+                                       Size="Size.Small"
+                                       aria-label="Editar"
+                                       OnClick="@(() => AbrirEditar(context))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                       Color="Color.Error"
+                                       Size="Size.Small"
+                                       aria-label="Eliminar"
+                                       OnClick="@(() => _pendienteEliminarId = context.Id)" />
+                    }
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudStack AlignItems="AlignItems.Center" Class="pa-8">
+                    <MudIcon Icon="@Icons.Material.Filled.Inventory2"
+                             Color="Color.Default"
+                             Size="Size.Large" />
+                    <MudText Typo="Typo.h6" Class="mt-3">Aun no hay productos registrados</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Registre el primer producto para comenzar.
+                    </MudText>
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Primary"
+                               Class="mt-3"
+                               OnClick="AbrirCrear">
+                        Nuevo producto
+                    </MudButton>
+                </MudStack>
+            </NoRecordsContent>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<ProductoEntidad> _productos = [];
+    private List<MaestroDetalle> _marcas = [];
+    private List<MaestroDetalle> _categorias = [];
+    private int _pendienteEliminarId;
+    private bool _cargando;
+
+    private readonly List<BreadcrumbItem> _breadcrumbs =
+    [
+        new("Mantenimiento", "/mantenimiento"),
+        new("Productos", "/mantenimiento/producto", disabled: true)
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarDatosAsync();
+    }
+
+    private async Task CargarDatosAsync()
+    {
+        _cargando = true;
+        try
+        {
+            var productosResult = await ProductoService.GetAllProductos();
+            _productos = productosResult.Success ? [.. productosResult.Data ?? []] : [];
+            _marcas = [.. await MaestroDetalleRepository.ListAsync(d => d.Estado && d.IdMaestro == 2)];
+            _categorias = [.. await MaestroDetalleRepository.ListAsync(d => d.Estado && d.IdMaestro == 3)];
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task AbrirCrear()
+    {
+        var parameters = new DialogParameters<FormProducto>
+        {
+            { x => x.Marcas, _marcas },
+            { x => x.Categorias, _categorias }
+        };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<FormProducto>("Nuevo producto", parameters, options);
+        var result = await dialog.Result;
+        if (result is { Canceled: false })
+        {
+            await CargarDatosAsync();
+            Snackbar.Add("Producto registrado correctamente", Severity.Success);
+        }
+    }
+
+    private async Task AbrirEditar(ProductoEntidad producto)
+    {
+        var parameters = new DialogParameters<FormProducto>
+        {
+            { x => x.ProductoId, producto.Id },
+            { x => x.Nombre, producto.Nombre },
+            { x => x.Descripcion, producto.Descripcion },
+            { x => x.IdMarcaMae, producto.IdMarcaMae },
+            { x => x.IdCategoriaMae, producto.IdCategoriaMae },
+            { x => x.PrecioUnitario, producto.PrecioUnitario },
+            { x => x.Stock, producto.Stock },
+            { x => x.Marcas, _marcas },
+            { x => x.Categorias, _categorias },
+            { x => x.EsEdicion, true }
+        };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true };
+        var dialog = await DialogService.ShowAsync<FormProducto>("Editar producto", parameters, options);
+        var result = await dialog.Result;
+        if (result is { Canceled: false })
+        {
+            await CargarDatosAsync();
+            Snackbar.Add("Producto actualizado correctamente", Severity.Success);
+        }
+    }
+
+    private async Task EliminarProducto(int id)
+    {
+        var response = await ProductoService.DeleteProducto(id);
+        _pendienteEliminarId = 0;
+
+        if (response.Success)
+        {
+            Snackbar.Add(response.Message ?? "Eliminado", Severity.Success);
+            await CargarDatosAsync();
+        }
+        else
+        {
+            Snackbar.Add(response.ErrorMessage ?? response.Message ?? "Ocurrio un error", Severity.Error);
+        }
+    }
+}

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\Galasy.Pedidos.DataAccess\Galasy.Pedidos.DataAccess.csproj" />
+    <ProjectReference Include="..\..\DataAccess\Galasy.Pedidos.Entities\Galasy.Pedidos.Entities.csproj" />
+    <ProjectReference Include="..\..\Common\Galasy.Pedidos.Common\Galasy.Pedidos.Common.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

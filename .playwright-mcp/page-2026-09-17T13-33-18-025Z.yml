@@ -1,0 +1,75 @@
+- generic [active] [ref=e1]:
+  - heading "An unhandled exception occurred while processing the request." [level=1] [ref=e2]
+  - generic [ref=e3]: "InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913."
+  - paragraph [ref=e4]: Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+  - list [ref=e5]:
+    - listitem [ref=e6] [cursor=pointer]: Stack
+    - listitem [ref=e7] [cursor=pointer]: Query
+    - listitem [ref=e8] [cursor=pointer]: Cookies
+    - listitem [ref=e9] [cursor=pointer]: Headers
+    - listitem [ref=e10] [cursor=pointer]: Routing
+  - list [ref=e12]:
+    - listitem [ref=e13]:
+      - 'heading "InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913." [level=2] [ref=e14]'
+      - list [ref=e15]:
+        - listitem [ref=e16]:
+          - heading "Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()" [level=3] [ref=e17]
+        - listitem [ref=e18]:
+          - heading "Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable<T>+AsyncEnumerator.MoveNextAsync()" [level=3] [ref=e19]
+        - listitem [ref=e20]:
+          - heading "System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable<TResult>+ConfiguredValueTaskAwaiter.GetResult()" [level=3] [ref=e21]
+        - listitem [ref=e22]:
+          - heading "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync<TSource>(IQueryable<TSource> source, CancellationToken cancellationToken)" [level=3] [ref=e23]
+        - listitem [ref=e24]:
+          - heading "Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync<TSource>(IQueryable<TSource> source, CancellationToken cancellationToken)" [level=3] [ref=e25]
+        - listitem [ref=e26]:
+          - heading [level=3] [ref=e27]:
+            - text: Galasy.Pedidos.Repositories.Implementations.BaseRepository<TEntity>.ListAsync(Expression<Func<TEntity, bool>> predicate) in
+            - code [ref=e28]: BaseRepository.cs
+          - button "+" [ref=e29] [cursor=pointer]
+          - list [ref=e31]:
+            - listitem [ref=e32]: return await _context.Set<TEntity>()
+        - listitem [ref=e33]:
+          - heading [level=3] [ref=e34]:
+            - text: Galasy.Pedidos.Presentation.Components.Pages.Mantenimiento.Producto.Producto.CargarDatosAsync() in
+            - code [ref=e35]: Producto.razor
+          - button "+" [ref=e36] [cursor=pointer]
+          - list [ref=e38]:
+            - listitem [ref=e39]: await Task.WhenAll(productosTask, marcasTask, categoriasTask);
+        - listitem [ref=e40]:
+          - heading [level=3] [ref=e41]:
+            - text: Galasy.Pedidos.Presentation.Components.Pages.Mantenimiento.Producto.Producto.OnInitializedAsync() in
+            - code [ref=e42]: Producto.razor
+          - button "+" [ref=e43] [cursor=pointer]
+          - list [ref=e45]:
+            - listitem [ref=e46]: await CargarDatosAsync();
+        - listitem [ref=e47]:
+          - heading "Microsoft.AspNetCore.Components.ComponentBase.RunInitAndSetParametersAsync()" [level=3] [ref=e48]
+        - listitem [ref=e49]:
+          - heading "Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle, ComponentState owningComponentState)" [level=3] [ref=e50]
+        - listitem [ref=e51]:
+          - heading "Microsoft.AspNetCore.Components.RenderTree.Renderer.GetErrorHandledTask(Task taskToHandle, ComponentState owningComponentState)" [level=3] [ref=e52]
+        - listitem [ref=e53]:
+          - heading "Microsoft.AspNetCore.Components.Endpoints.EndpointHtmlRenderer.<WaitForNonStreamingPendingTasks>g__Execute|58_0()" [level=3] [ref=e54]
+        - listitem [ref=e55]:
+          - heading "Microsoft.AspNetCore.Components.Endpoints.EndpointHtmlRenderer.WaitForResultReady(bool waitForQuiescence, PrerenderedComponentHtmlContent result)" [level=3] [ref=e56]
+        - listitem [ref=e57]:
+          - heading "Microsoft.AspNetCore.Components.Endpoints.EndpointHtmlRenderer.RenderEndpointComponent(HttpContext httpContext, Type rootComponentType, ParameterView parameters, bool waitForQuiescence)" [level=3] [ref=e58]
+        - listitem [ref=e59]:
+          - heading "System.Runtime.CompilerServices.ValueTaskAwaiter<TResult>.GetResult()" [level=3] [ref=e60]
+        - listitem [ref=e61]:
+          - heading "Microsoft.AspNetCore.Components.Endpoints.RazorComponentEndpointInvoker.RenderComponentCore(HttpContext context)" [level=3] [ref=e62]
+        - listitem [ref=e63]:
+          - heading "Microsoft.AspNetCore.Components.Endpoints.RazorComponentEndpointInvoker.RenderComponentCore(HttpContext context)" [level=3] [ref=e64]
+        - listitem [ref=e65]:
+          - heading "Microsoft.AspNetCore.Components.Rendering.RendererSynchronizationContext+<>c+<<InvokeAsync>b__10_0>d.MoveNext()" [level=3] [ref=e66]
+        - listitem [ref=e67]:
+          - heading "Microsoft.AspNetCore.Builder.ServerRazorComponentsEndpointConventionBuilderExtensions+<>c__DisplayClass1_1+<<AddInteractiveServerRenderMode>b__1>d.MoveNext()" [level=3] [ref=e68]
+        - listitem [ref=e69]:
+          - heading "Microsoft.AspNetCore.Diagnostics.StatusCodePagesMiddleware.Invoke(HttpContext context)" [level=3] [ref=e70]
+        - listitem [ref=e71]:
+          - heading "Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)" [level=3] [ref=e72]
+        - listitem [ref=e73]:
+          - heading "Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)" [level=3] [ref=e74]
+    - listitem [ref=e75]:
+      - button "Show raw exception details" [ref=e77] [cursor=pointer]

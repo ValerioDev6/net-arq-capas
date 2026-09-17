@@ -1,0 +1,115 @@
+- generic [ref=e1]:
+  - dialog [ref=e273]:
+    - generic [ref=e274]:
+      - heading "Nuevo pedido" [level=6] [ref=e275]
+      - button "Close" [ref=e276] [cursor=pointer]
+    - generic [ref=e282]:
+      - generic [ref=e284]:
+        - generic [ref=e287]:
+          - combobox "Cliente" [ref=e289] [cursor=pointer]: "0"
+          - generic: Cliente*
+        - separator [ref=e294]
+        - paragraph [ref=e295]: Detalle del pedido
+        - generic [ref=e296]:
+          - generic [ref=e299]:
+            - combobox "Producto" [ref=e301] [cursor=pointer]: "0"
+            - generic: Producto*
+          - generic [ref=e307]:
+            - generic [ref=e308]:
+              - spinbutton "Cant." [ref=e309]: "1"
+              - generic [ref=e310]:
+                - button "Increment" [ref=e311] [cursor=pointer]
+                - button "Decrement" [ref=e316] [cursor=pointer]
+            - generic: Cant.
+          - generic [ref=e322]:
+            - generic [ref=e323]:
+              - paragraph [ref=e325]: S/.
+              - spinbutton "Precio" [ref=e326]: "0"
+              - generic [ref=e327]:
+                - button "Increment" [ref=e328] [cursor=pointer]
+                - button "Decrement" [ref=e333] [cursor=pointer]
+            - generic: Precio
+          - paragraph [ref=e338]: S/. 0.00
+          - button [disabled]
+        - button "Agregar producto" [ref=e339] [cursor=pointer]
+        - separator [ref=e345]
+        - group [ref=e346]:
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - paragraph [ref=e351]: S/.
+              - spinbutton "Adelanto" [ref=e352]: "0"
+              - generic [ref=e353]:
+                - button "Increment" [ref=e354] [cursor=pointer]
+                - button "Decrement" [ref=e359] [cursor=pointer]
+            - generic: Adelanto
+          - generic [ref=e364]:
+            - paragraph [ref=e365]: Total
+            - heading "S/. 0.00" [level=6] [ref=e366]
+      - generic [ref=e367]:
+        - button "Cancelar" [ref=e368] [cursor=pointer]
+        - button "Registrar" [ref=e370] [cursor=pointer]
+  - generic [ref=e136]:
+    - banner [ref=e137]:
+      - toolbar [ref=e138]:
+        - button [ref=e139] [cursor=pointer]
+        - heading "GalasyApp" [level=6] [ref=e144]
+        - button [ref=e146] [cursor=pointer]
+        - button [ref=e153] [cursor=pointer]
+    - complementary [ref=e158]:
+      - navigation [ref=e160]:
+        - link "Dashboard" [ref=e162] [cursor=pointer]:
+          - /url: /
+        - link "Products" [ref=e168] [cursor=pointer]:
+          - /url: /products
+        - link "Analytics" [ref=e174] [cursor=pointer]:
+          - /url: /analytics
+        - navigation "Mantenimiento" [ref=e179]:
+          - button "Toggle Mantenimiento" [ref=e180] [cursor=pointer]:
+            - generic [ref=e185]: Mantenimiento
+        - separator [ref=e189]
+        - navigation "Administración" [ref=e190]:
+          - button "Toggle Administración" [ref=e191] [cursor=pointer]:
+            - generic [ref=e199]: Administración
+        - navigation "Configuración" [ref=e203]:
+          - button "Toggle Configuración" [ref=e204] [cursor=pointer]:
+            - generic [ref=e209]: Configuración
+        - separator [ref=e213]
+        - link "Acerca de" [ref=e215] [cursor=pointer]:
+          - /url: /about
+    - generic [ref=e222]:
+      - navigation "Breadcrumb" [ref=e223]:
+        - list [ref=e224]:
+          - listitem [ref=e225]:
+            - link "Mantenimiento" [ref=e226] [cursor=pointer]:
+              - /url: /mantenimiento
+          - listitem [aria-hidden] [ref=e227]:
+            - generic [ref=e228]: /
+          - listitem [ref=e229]:
+            - link "Pedidos":
+              - /url: /mantenimiento/pedido
+      - group [ref=e230]:
+        - generic [ref=e231]:
+          - heading "Pedidos" [level=4] [ref=e232]
+          - paragraph [ref=e233]: Consulte y administre los pedidos registrados.
+        - button "Nuevo pedido" [ref=e234] [cursor=pointer]
+      - generic [ref=e240]:
+        - group [ref=e241]:
+          - heading "Listado de pedidos" [level=6] [ref=e242]
+          - generic [ref=e243]: 0 registros
+        - table [ref=e248]:
+          - rowgroup [ref=e249]:
+            - row [ref=e250]:
+              - columnheader "ID" [ref=e251]
+              - columnheader "Cliente" [ref=e252]
+              - columnheader "Total" [ref=e253]
+              - columnheader "Adelanto" [ref=e254]
+              - columnheader "Saldo" [ref=e255]
+              - columnheader "Fecha" [ref=e256]
+              - columnheader "Acciones" [ref=e257]
+          - rowgroup [ref=e258]:
+            - row [ref=e259]:
+              - cell [ref=e260]:
+                - group [ref=e262]:
+                  - heading "Aun no hay pedidos registrados" [level=6] [ref=e266]
+                  - paragraph [ref=e267]: Registre el primer pedido para comenzar.
+                  - button "Nuevo pedido" [ref=e268] [cursor=pointer]

@@ -1,0 +1,43 @@
+@page "/mantenimiento/cliente/registrar"
+@rendermode InteractiveServer
+@using Galasy.Pedidos.Business.Interfaces
+@inject IClienteService ClienteService
+
+<PageTitle>Registrar cliente</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4 client-form">
+    <MudBreadcrumbs Items="_breadcrumbs" Class="mb-4" />
+
+    <MudPaper Elevation="1" Class="pa-4 pa-sm-6 client-form-card">
+        <MudText Typo="Typo.h6">Registrar cliente</MudText>
+
+        <FormCliente Model="_cliente"
+                     SubmitText="Registrar cliente"
+                     OnValidSubmit="RegistrarCliente" />
+
+        @if (!string.IsNullOrWhiteSpace(_mensaje))
+        {
+            <MudAlert Severity="@_alertaSeverity" Class="mt-4">@_mensaje</MudAlert>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private ClienteRequest _cliente = new();
+    private string? _mensaje;
+    private Severity _alertaSeverity = Severity.Success;
+
+    private readonly List<BreadcrumbItem> _breadcrumbs =
+    [
+        new("Mantenimiento", "/mantenimiento"),
+        new("Clientes", "/mantenimiento/cliente"),
+        new("Registrar", null, true)
+    ];
+
+    private async Task RegistrarCliente(ClienteRequest cliente)
+    {
+        var response = await ClienteService.AddCliente(cliente);
+        _alertaSeverity = response.Success ? Severity.Success : Severity.Error;
+        _mensaje = response.Success ? response.Message : response.ErrorMessage ?? response.Message;
+    }
+}

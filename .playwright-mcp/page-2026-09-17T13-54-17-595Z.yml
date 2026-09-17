@@ -1,0 +1,99 @@
+- generic [ref=e1]:
+  - listbox [ref=e379]:
+    - option [ref=e380] [cursor=pointer]:
+      - paragraph [ref=e382]: Comercio
+    - option [ref=e383] [cursor=pointer]:
+      - paragraph [ref=e385]: Servicios
+  - generic [ref=e190]:
+    - banner [ref=e191]:
+      - toolbar [ref=e192]:
+        - button [ref=e193] [cursor=pointer]
+        - heading "GalasyApp" [level=6] [ref=e198]
+        - button [ref=e200] [cursor=pointer]
+        - button [ref=e207] [cursor=pointer]
+    - complementary [ref=e212]:
+      - navigation [ref=e214]:
+        - link "Dashboard" [ref=e216] [cursor=pointer]:
+          - /url: /
+        - link "Products" [ref=e222] [cursor=pointer]:
+          - /url: /products
+        - link "Analytics" [ref=e228] [cursor=pointer]:
+          - /url: /analytics
+        - navigation "Mantenimiento" [ref=e233]:
+          - button "Toggle Mantenimiento" [ref=e234] [cursor=pointer]:
+            - generic [ref=e239]: Mantenimiento
+        - separator [ref=e243]
+        - navigation "Administración" [ref=e244]:
+          - button "Toggle Administración" [ref=e245] [cursor=pointer]:
+            - generic [ref=e253]: Administración
+        - navigation "Configuración" [ref=e257]:
+          - button "Toggle Configuración" [ref=e258] [cursor=pointer]:
+            - generic [ref=e263]: Configuración
+        - separator [ref=e267]
+        - link "Acerca de" [ref=e269] [cursor=pointer]:
+          - /url: /about
+    - generic [ref=e276]:
+      - navigation "Breadcrumb" [ref=e277]:
+        - list [ref=e278]:
+          - listitem [ref=e279]:
+            - link "Mantenimiento" [ref=e280] [cursor=pointer]:
+              - /url: /mantenimiento
+          - listitem [aria-hidden] [ref=e281]:
+            - generic [ref=e282]: /
+          - listitem [ref=e283]:
+            - link "Clientes" [ref=e284] [cursor=pointer]:
+              - /url: /mantenimiento/cliente
+          - listitem [aria-hidden] [ref=e285]:
+            - generic [ref=e286]: /
+          - listitem [ref=e287]:
+            - link "Registrar":
+              - /url: "#"
+      - generic [ref=e288]:
+        - heading "Registrar cliente" [level=6] [ref=e289]
+        - generic [ref=e291]:
+          - generic [ref=e293]:
+            - generic [ref=e294]:
+              - textbox "Razón social*" [ref=e299]
+              - group "Razón social"
+            - generic: Razón social*
+          - generic [ref=e302]:
+            - generic [ref=e303] [cursor=pointer]:
+              - combobox "Rubro" [expanded] [active] [ref=e310]: "0"
+              - group "Rubro"
+            - generic: Rubro*
+          - generic [ref=e313]:
+            - generic [ref=e314] [cursor=pointer]:
+              - combobox "Tipo de documento" [ref=e319]
+              - group "Tipo de documento"
+            - generic: Tipo de documento*
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - textbox "Número de documento" [ref=e330]
+              - group "Número de documento"
+            - generic: Número de documento
+          - generic [ref=e332]:
+            - generic [ref=e333]:
+              - textbox "Contacto*" [ref=e338]
+              - group "Contacto"
+            - generic: Contacto*
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - textbox "Celular" [ref=e346]
+              - group "Celular"
+            - generic: Celular
+          - generic [ref=e348]:
+            - generic [ref=e349]:
+              - textbox "Dirección*" [ref=e354]
+              - group "Dirección"
+            - generic: Dirección*
+          - generic [ref=e356]:
+            - generic [ref=e357]:
+              - textbox "Correo electrónico*" [ref=e362]
+              - group "Correo electrónico"
+            - generic: Correo electrónico*
+          - generic [ref=e363]:
+            - separator [ref=e364]
+            - group [ref=e365]:
+              - link "Cancelar" [ref=e366] [cursor=pointer]:
+                - /url: /mantenimiento/cliente
+              - button "Registrar cliente" [ref=e372] [cursor=pointer]

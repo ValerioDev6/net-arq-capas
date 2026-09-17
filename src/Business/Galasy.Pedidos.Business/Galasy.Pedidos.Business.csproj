@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Galasy.Pedidos.DTO\Galasy.Pedidos.DTO.csproj" />
+    <ProjectReference Include="..\..\Repositories\Galasy.Pedidos.Repositories\Galasy.Pedidos.Repositories.csproj" />
+    <ProjectReference Include="..\..\DataAccess\Galasy.Pedidos.Entities\Galasy.Pedidos.Entities.csproj" />
+    <ProjectReference Include="..\..\Common\Galasy.Pedidos.Common\Galasy.Pedidos.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="10.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

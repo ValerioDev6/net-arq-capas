@@ -1,0 +1,177 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider @ref="_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+  <MudAppBar Elevation="1">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
+    <MudText Typo="Typo.h6" Class="ml-3">GalasyApp</MudText>
+    <MudSpacer />
+    
+    @* Usuario *@
+    <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit" AnchorOrigin="Origin.BottomRight"
+      TransformOrigin="Origin.TopRight">
+      <div class="px-4 py-3" style="min-width: 200px;">
+        <MudText Typo="Typo.subtitle2"><b>Usuario Demo</b></MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary">demo@blazor.com</MudText>
+      </div>
+      <MudDivider />
+      <MudMenuItem Icon="@Icons.Material.Filled.Person">Mi Perfil</MudMenuItem>
+      <MudMenuItem Icon="@Icons.Material.Filled.Settings">Configuración</MudMenuItem>
+      <MudDivider />
+      <MudMenuItem Icon="@Icons.Material.Filled.Logout" IconColor="Color.Error">
+        Cerrar Sesión
+      </MudMenuItem>
+    </MudMenu>
+
+    @* Toggle Dark Mode *@
+    <MudIconButton Icon="@(_isDarkMode? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"
+      Color="Color.Inherit" OnClick="@ToggleDarkMode" />
+  </MudAppBar>
+
+  @* Drawer navegación *@
+  <MudDrawer @bind-Open="@_drawerOpen"
+             Elevation="2"
+             Variant="DrawerVariant.Responsive"
+             Breakpoint="Breakpoint.Md"
+             Width="240px"
+             ClipMode="DrawerClipMode.Always">
+    <MudNavMenu Bordered="true" Dense="true" MultiExpansion="true" Class="pa-2">
+      <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">
+        Dashboard
+      </MudNavLink>
+      <MudNavLink Href="/products" Match="NavLinkMatch.Prefix"
+                  Icon="@Icons.Material.Filled.ProductionQuantityLimits">
+        Products
+      </MudNavLink>
+      <MudNavLink Href="/analytics" Match="NavLinkMatch.Prefix"
+                  Icon="@Icons.Material.Filled.Analytics">
+        Analytics
+      </MudNavLink>
+
+      <MudNavGroup Title="Mantenimiento"
+                   Icon="@Icons.Material.Filled.Settings"
+                   @bind-Expanded="_mantenimientoExpanded">
+        <MudNavLink Href="/mantenimiento/cliente"
+                    Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.People">
+          Clientes
+        </MudNavLink>
+        <MudNavLink Href="/mantenimiento/producto"
+                    Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.Inventory2">
+          Productos
+        </MudNavLink>
+        <MudNavLink Href="/mantenimiento/pedido"
+                    Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.ShoppingCart">
+          Pedidos
+        </MudNavLink>
+      </MudNavGroup>
+
+      <MudDivider Class="my-2" />
+
+      <MudNavGroup Title="Administración" Icon="@Icons.Material.Filled.AdminPanelSettings">
+        <MudNavLink Href="/users" Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.People">
+          Usuarios
+        </MudNavLink>
+        <MudNavLink Href="/security" Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.Security">
+          Seguridad
+        </MudNavLink>
+        <MudNavLink Href="/roles" Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.AdminPanelSettings">
+          Roles
+        </MudNavLink>
+      </MudNavGroup>
+
+      <MudNavGroup Title="Configuración" Icon="@Icons.Material.Filled.Settings">
+        <MudNavLink Href="/general" Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.Tune">
+          General
+        </MudNavLink>
+        <MudNavLink Href="/integrations" Match="NavLinkMatch.Prefix"
+                    Icon="@Icons.Material.Filled.Extension">
+          Integraciones
+        </MudNavLink>
+      </MudNavGroup>
+
+      <MudDivider Class="my-2" />
+
+      <MudNavLink Href="/about" Match="NavLinkMatch.Prefix"
+                  Icon="@Icons.Material.Filled.Info">
+        Acerca de
+      </MudNavLink>
+    </MudNavMenu>
+  </MudDrawer>
+
+  @* Contenido principal *@
+  <MudMainContent>
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="px-4 py-4">
+      @Body
+    </MudContainer>
+  </MudMainContent>
+</MudLayout>
+
+@code {
+  private bool _drawerOpen = true;
+  private bool _mantenimientoExpanded;
+  private bool _isDarkMode;
+  private MudThemeProvider? _mudThemeProvider;
+
+  private MudTheme _theme = new()
+  {
+    PaletteLight = new PaletteLight()
+    {
+      Primary = "#594AE2",
+      Secondary = "#FF4081",
+      AppbarBackground = "#594AE2",
+    },
+    PaletteDark = new PaletteDark()
+    {
+      Primary = "#776BE7",
+      Secondary = "#FF4081",
+      AppbarBackground = "#27272f",
+      Background = "#1a1a27",
+      BackgroundGray = "#151521",
+      Surface = "#1e1e2d",
+      DrawerBackground = "#1a1a27",
+      DrawerText = "rgba(255,255,255, 0.50)",
+      AppbarText = "rgba(255,255,255, 0.70)",
+      TextPrimary = "rgba(255,255,255, 0.90)",
+      TextSecondary = "rgba(255,255,255, 0.50)",
+    }
+  };
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (firstRender && _mudThemeProvider != null)
+    {
+      _isDarkMode = await _mudThemeProvider.GetSystemDarkModeAsync();
+      await _mudThemeProvider.WatchSystemDarkModeAsync(OnSystemPreferenceChanged);
+      StateHasChanged();
+    }
+  }
+
+  private Task OnSystemPreferenceChanged(bool newValue)
+  {
+    _isDarkMode = newValue;
+    StateHasChanged();
+    return Task.CompletedTask;
+  }
+
+  private void DrawerToggle()
+  {
+    _drawerOpen = !_drawerOpen;
+  }
+
+  private void ToggleDarkMode()
+  {
+    _isDarkMode = !_isDarkMode;
+    StateHasChanged();
+  }
+}

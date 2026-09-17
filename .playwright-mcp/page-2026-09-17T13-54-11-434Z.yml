@@ -1,0 +1,93 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - toolbar [ref=e4]:
+      - button [ref=e5] [cursor=pointer]
+      - heading "GalasyApp" [level=6] [ref=e10]
+      - button [ref=e12] [cursor=pointer]
+      - button [ref=e19] [cursor=pointer]
+  - complementary [ref=e24]:
+    - navigation [ref=e26]:
+      - link "Dashboard" [ref=e28] [cursor=pointer]:
+        - /url: /
+      - link "Products" [ref=e34] [cursor=pointer]:
+        - /url: /products
+      - link "Analytics" [ref=e40] [cursor=pointer]:
+        - /url: /analytics
+      - navigation "Mantenimiento" [ref=e45]:
+        - button "Toggle Mantenimiento" [ref=e46] [cursor=pointer]:
+          - generic [ref=e51]: Mantenimiento
+      - separator [ref=e55]
+      - navigation "Administración" [ref=e56]:
+        - button "Toggle Administración" [ref=e57] [cursor=pointer]:
+          - generic [ref=e65]: Administración
+      - navigation "Configuración" [ref=e69]:
+        - button "Toggle Configuración" [ref=e70] [cursor=pointer]:
+          - generic [ref=e75]: Configuración
+      - separator [ref=e79]
+      - link "Acerca de" [ref=e81] [cursor=pointer]:
+        - /url: /about
+  - generic [ref=e88]:
+    - navigation "Breadcrumb" [ref=e89]:
+      - list [ref=e90]:
+        - listitem [ref=e91]:
+          - link "Mantenimiento" [ref=e92] [cursor=pointer]:
+            - /url: /mantenimiento
+        - listitem [aria-hidden] [ref=e93]:
+          - generic [ref=e94]: /
+        - listitem [ref=e95]:
+          - link "Clientes" [ref=e96] [cursor=pointer]:
+            - /url: /mantenimiento/cliente
+        - listitem [aria-hidden] [ref=e97]:
+          - generic [ref=e98]: /
+        - listitem [ref=e99]:
+          - link "Registrar":
+            - /url: "#"
+    - generic [ref=e100]:
+      - heading "Registrar cliente" [level=6] [ref=e101]
+      - generic [ref=e103]:
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - textbox "Razón social*" [ref=e111]
+            - group "Razón social"
+          - generic: Razón social*
+        - generic [ref=e114]:
+          - generic [ref=e115] [cursor=pointer]:
+            - combobox "Rubro" [ref=e122]: "0"
+            - group "Rubro"
+          - generic: Rubro*
+        - generic [ref=e125]:
+          - generic [ref=e126] [cursor=pointer]:
+            - combobox "Tipo de documento" [ref=e131]
+            - group "Tipo de documento"
+          - generic: Tipo de documento*
+        - generic [ref=e133]:
+          - generic [ref=e134]:
+            - textbox "Número de documento" [ref=e142]
+            - group "Número de documento"
+          - generic: Número de documento
+        - generic [ref=e144]:
+          - generic [ref=e145]:
+            - textbox "Contacto*" [ref=e150]
+            - group "Contacto"
+          - generic: Contacto*
+        - generic [ref=e152]:
+          - generic [ref=e153]:
+            - textbox "Celular" [ref=e158]
+            - group "Celular"
+          - generic: Celular
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - textbox "Dirección*" [ref=e166]
+            - group "Dirección"
+          - generic: Dirección*
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - textbox "Correo electrónico*" [ref=e174]
+            - group "Correo electrónico"
+          - generic: Correo electrónico*
+        - generic [ref=e175]:
+          - separator [ref=e176]
+          - group [ref=e177]:
+            - link "Cancelar" [ref=e178] [cursor=pointer]:
+              - /url: /mantenimiento/cliente
+            - button "Registrar cliente" [ref=e184] [cursor=pointer]

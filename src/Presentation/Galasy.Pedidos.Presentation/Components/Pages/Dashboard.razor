@@ -1,0 +1,54 @@
+@page "/"
+@page "/dashboard"
+@rendermode InteractiveServer
+
+<PageTitle>Dashboard</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4">
+    <MudStack Spacing="1" Class="mb-6">
+        <MudText Typo="Typo.h4">Dashboard</MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary">
+            Resumen general de Galasy Pedidos.
+        </MudText>
+    </MudStack>
+
+    <MudGrid Spacing="3">
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="1" Class="pa-4">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Clientes</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">0</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="1" Class="pa-4">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Pedidos</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">0</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="1" Class="pa-4">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Productos</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">0</MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="3">
+            <MudPaper Elevation="1" Class="pa-4">
+                <MudText Typo="Typo.body2" Color="Color.Secondary">Ventas del mes</MudText>
+                <MudText Typo="Typo.h5" Class="mt-2">S/ 0.00</MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+    <MudPaper Elevation="1" Class="pa-5 mt-6">
+        <MudText Typo="Typo.h6">Accesos rapidos</MudText>
+        <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4">
+            Ingrese directamente a las tareas principales.
+        </MudText>
+        <MudButton Href="/mantenimiento/cliente"
+                   Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.People">
+            Administrar clientes
+        </MudButton>
+    </MudPaper>
+</MudContainer>

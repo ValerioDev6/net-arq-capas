@@ -1,0 +1,193 @@
+@using Galasy.Pedidos.Business.Interfaces
+@using Galasy.Pedidos.DTO.Request.Pedido
+@using Galasy.Pedidos.DTO.Response
+@using Galasy.Pedidos.Entities
+@inject IPedidoService PedidoService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(EsEdicion ? "Editar pedido" : "Nuevo pedido")</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="_form">
+            <MudSelect T="int"
+                       @bind-Value="_model.IdCliente"
+                       Label="Cliente"
+                       Required="true"
+                       Class="mb-4">
+                @foreach (var c in Clientes)
+                {
+                    <MudSelectItem T="int" Value="@c.Id">@c.RazonSocial</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudDivider Class="mb-4" />
+
+            <MudText Typo="Typo.subtitle1" Class="mb-2">Detalle del pedido</MudText>
+
+            @foreach (var det in _detalles)
+            {
+                <MudPaper Elevation="0" Class="d-flex gap-3 mb-2 pa-2" Style="border: 1px solid var(--mud-lines-default); border-radius: 4px;">
+                    <MudSelect T="int"
+                               @bind-Value="det.IdProducto"
+                               Label="Producto"
+                               Required="true"
+                               Style="flex: 2;">
+                        @foreach (var p in Productos)
+                        {
+                            <MudSelectItem T="int" Value="@p.Id">@p.Nombre (S/. @p.PrecioUnitario.ToString("N2"))</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    <MudNumericField T="decimal"
+                                     @bind-Value="det.Cantidad"
+                                     Label="Cant."
+                                     Min="0.01m"
+                                     Style="flex: 1;" />
+
+                    <MudNumericField T="decimal"
+                                     @bind-Value="det.PrecioUnitario"
+                                     Label="Precio"
+                                     Min="0.01m"
+                                     Adornment="Adornment.Start"
+                                     AdornmentText="S/."
+                                     Style="flex: 1;" />
+
+                    <MudText Typo="Typo.body2" Class="d-flex align-center" Style="flex: 0.8;">
+                        S/. @((det.Cantidad * det.PrecioUnitario).ToString("N2"))
+                    </MudText>
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                   Color="Color.Error"
+                                   Size="Size.Small"
+                                   OnClick="@(() => QuitarDetalle(det))"
+                                   Disabled="@(_detalles.Count <= 1)" />
+                </MudPaper>
+            }
+
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Add"
+                       OnClick="AgregarDetalle"
+                       Class="mt-2 mb-4">
+                Agregar producto
+            </MudButton>
+
+            <MudDivider Class="mb-3" />
+
+            <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                <MudNumericField T="decimal"
+                                 @bind-Value="_model.Adelanto"
+                                 Label="Adelanto"
+                                 Min="0m"
+                                 Adornment="Adornment.Start"
+                                 AdornmentText="S/."
+                                 Style="max-width: 200px;" />
+                <div class="text-right">
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Total</MudText>
+                    <MudText Typo="Typo.h6" Color="Color.Primary">S/. @Total.ToString("N2")</MudText>
+                </div>
+            </MudStack>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancelar">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Guardar">
+            @(EsEdicion ? "Actualizar" : "Registrar")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public int PedidoId { get; set; }
+    [Parameter] public int IdCliente { get; set; }
+    [Parameter] public decimal Adelanto { get; set; }
+    [Parameter] public List<DetalleExistente> ExistentesDetalles { get; set; } = [];
+    [Parameter] public List<Cliente> Clientes { get; set; } = [];
+    [Parameter] public List<Producto> Productos { get; set; } = [];
+    [Parameter] public bool EsEdicion { get; set; }
+
+    public class DetalleExistente
+    {
+        public int IdProducto { get; set; }
+        public decimal Cantidad { get; set; }
+        public decimal PrecioUnitario { get; set; }
+    }
+
+    private MudForm? _form;
+    private readonly PedidoRequest _model = new();
+    private List<DetalleLinea> _detalles = new();
+
+    private class DetalleLinea
+    {
+        public int IdProducto { get; set; }
+        public decimal Cantidad { get; set; } = 1;
+        public decimal PrecioUnitario { get; set; }
+    }
+
+    private decimal Total => _detalles.Sum(d => d.Cantidad * d.PrecioUnitario);
+
+    protected override void OnInitialized()
+    {
+        _model.IdCliente = IdCliente;
+        _model.Adelanto = Adelanto;
+
+        if (ExistentesDetalles.Count > 0)
+        {
+            _detalles = ExistentesDetalles.Select(d => new DetalleLinea
+            {
+                IdProducto = d.IdProducto,
+                Cantidad = d.Cantidad,
+                PrecioUnitario = d.PrecioUnitario
+            }).ToList();
+        }
+        else
+        {
+            _detalles.Add(new DetalleLinea());
+        }
+    }
+
+    private void AgregarDetalle()
+    {
+        _detalles.Add(new DetalleLinea());
+    }
+
+    private void QuitarDetalle(DetalleLinea linea)
+    {
+        _detalles.Remove(linea);
+    }
+
+    private void Cancelar() => MudDialog.Cancel();
+
+    private async Task Guardar()
+    {
+        if (_form is null) return;
+        await _form.Validate();
+        if (!_form.IsValid) return;
+
+        _model.Detalles = _detalles.Select(d => new PedidoDetalleRequest
+        {
+            IdProducto = d.IdProducto,
+            Cantidad = d.Cantidad,
+            PrecioUnitario = d.PrecioUnitario
+        }).ToList();
+
+        BaseResponse response;
+        if (EsEdicion)
+        {
+            response = await PedidoService.UpdatePedido(PedidoId, _model);
+        }
+        else
+        {
+            response = await PedidoService.AddPedido(_model);
+        }
+
+        if (response.Success)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+}

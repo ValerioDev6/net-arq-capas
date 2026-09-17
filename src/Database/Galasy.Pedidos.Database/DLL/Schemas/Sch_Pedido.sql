@@ -1,0 +1,1 @@
+CREATE SCHEMA [Sch_Pedido]

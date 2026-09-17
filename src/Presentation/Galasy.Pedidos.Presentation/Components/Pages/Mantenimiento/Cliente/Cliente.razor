@@ -1,0 +1,146 @@
+@page "/mantenimiento/cliente"
+@rendermode InteractiveServer
+@using Galasy.Pedidos.Business.Interfaces
+@using ClienteEntidad = Galasy.Pedidos.Entities.Cliente
+@inject IClienteService ClienteService
+@inject ISnackbar Snackbar
+
+<PageTitle>Clientes</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.False" Class="pa-4">
+    <MudBreadcrumbs Items="_breadcrumbs" Class="mb-4" />
+
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-6">
+        <div>
+            <MudText Typo="Typo.h4">Clientes</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">
+                Consulte y administre los clientes registrados.
+            </MudText>
+        </div>
+        <MudButton Href="/mantenimiento/cliente/registrar"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Add">
+            Registrar cliente
+        </MudButton>
+    </MudStack>
+
+    <MudPaper Elevation="1" Class="pa-4">
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+            <MudText Typo="Typo.h6">Listado de clientes</MudText>
+            <MudChip T="string" Color="Color.Default" Variant="Variant.Outlined">@(_clientes.Count) registros</MudChip>
+        </MudStack>
+
+        @if (_cargando)
+        {
+            <MudProgressLinear Color="Color.Primary" Class="mb-2" />
+        }
+
+        <MudTable Items="_clientes" Hover="true" Striped="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>Razon social</MudTh>
+                <MudTh>Documento</MudTh>
+                <MudTh>Contacto</MudTh>
+                <MudTh>Correo electronico</MudTh>
+                <MudTh>Acciones</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Razon social">@context.RazonSocial</MudTd>
+                <MudTd DataLabel="Documento">@(context.NumeroDocumento ?? "-")</MudTd>
+                <MudTd DataLabel="Contacto">@context.Contacto</MudTd>
+                <MudTd DataLabel="Correo electronico">@context.CorreoElectronico</MudTd>
+                <MudTd DataLabel="Acciones">
+                    @if (_pendienteEliminarId == context.Id)
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.Check"
+                                       Color="Color.Error"
+                                       Size="Size.Small"
+                                       aria-label="Confirmar eliminacion"
+                                       OnClick="@(() => EliminarCliente(context.Id))" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Close"
+                                       Size="Size.Small"
+                                       aria-label="Cancelar"
+                                       OnClick="@(() => _pendienteEliminarId = 0)" />
+                    }
+                    else
+                    {
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                       Color="Color.Primary"
+                                       Size="Size.Small"
+                                       aria-label="Editar"
+                                       Href="@($"/mantenimiento/cliente/editar/{context.Id}")" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                       Color="Color.Error"
+                                       Size="Size.Small"
+                                       aria-label="Eliminar"
+                                       OnClick="@(() => _pendienteEliminarId = context.Id)" />
+                    }
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudStack AlignItems="AlignItems.Center" Class="pa-8">
+                    <MudIcon Icon="@Icons.Material.Filled.PeopleOutline"
+                             Color="Color.Default"
+                             Size="Size.Large" />
+                    <MudText Typo="Typo.h6" Class="mt-3">Aun no hay clientes registrados</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">
+                        Empiece registrando el primer cliente.
+                    </MudText>
+                    <MudButton Href="/mantenimiento/cliente/registrar"
+                               Variant="Variant.Outlined"
+                               Color="Color.Primary"
+                               Class="mt-3">
+                        Registrar cliente
+                    </MudButton>
+                </MudStack>
+            </NoRecordsContent>
+        </MudTable>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private List<ClienteEntidad> _clientes = [];
+    private int _pendienteEliminarId;
+    private bool _cargando;
+
+    private readonly List<BreadcrumbItem> _breadcrumbs =
+    [
+        new("Mantenimiento", "/mantenimiento"),
+        new("Clientes", "/mantenimiento/cliente", disabled: true)
+    ];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CargarClientesAsync();
+    }
+
+    private async Task CargarClientesAsync()
+    {
+        _cargando = true;
+        try
+        {
+            var response = await ClienteService.GetAllClientes();
+            _clientes = response.Success ? [.. response.Data ?? []] : [];
+        }
+        finally
+        {
+            _cargando = false;
+        }
+    }
+
+    private async Task EliminarCliente(int id)
+    {
+        var response = await ClienteService.DeleteCliente(id);
+        _pendienteEliminarId = 0;
+
+        if (response.Success)
+        {
+            Snackbar.Add(response.Message, Severity.Success);
+            await CargarClientesAsync();
+        }
+        else
+        {
+            Snackbar.Add(response.ErrorMessage ?? response.Message ?? "Ocurrio un error", Severity.Error);
+        }
+    }
+}

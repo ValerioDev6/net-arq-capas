@@ -1,0 +1,115 @@
+- generic [ref=f7e1]:
+  - dialog [ref=f7e273]:
+    - generic [ref=f7e274]:
+      - heading "Nuevo pedido" [level=6] [ref=f7e275]
+      - button "Close" [ref=f7e276] [cursor=pointer]
+    - generic [ref=f7e282]:
+      - generic [ref=f7e284]:
+        - generic [ref=f7e287]:
+          - combobox "Cliente" [active] [ref=f7e289] [cursor=pointer]: "0"
+          - generic: Cliente*
+        - separator [ref=f7e294]
+        - paragraph [ref=f7e295]: Detalle del pedido
+        - generic [ref=f7e296]:
+          - generic [ref=f7e299]:
+            - combobox "Producto" [ref=f7e301] [cursor=pointer]: "0"
+            - generic: Producto*
+          - generic [ref=f7e307]:
+            - generic [ref=f7e308]:
+              - spinbutton "Cant." [ref=f7e309]: "1"
+              - generic [ref=f7e310]:
+                - button "Increment" [ref=f7e311] [cursor=pointer]
+                - button "Decrement" [ref=f7e316] [cursor=pointer]
+            - generic: Cant.
+          - generic [ref=f7e322]:
+            - generic [ref=f7e323]:
+              - paragraph [ref=f7e325]: S/.
+              - spinbutton "Precio" [ref=f7e326]: "0"
+              - generic [ref=f7e327]:
+                - button "Increment" [ref=f7e328] [cursor=pointer]
+                - button "Decrement" [ref=f7e333] [cursor=pointer]
+            - generic: Precio
+          - paragraph [ref=f7e338]: S/. 0.00
+          - button [disabled]
+        - button "Agregar producto" [ref=f7e339] [cursor=pointer]
+        - separator [ref=f7e345]
+        - group [ref=f7e346]:
+          - generic [ref=f7e348]:
+            - generic [ref=f7e349]:
+              - paragraph [ref=f7e351]: S/.
+              - spinbutton "Adelanto" [ref=f7e352]: "0"
+              - generic [ref=f7e353]:
+                - button "Increment" [ref=f7e354] [cursor=pointer]
+                - button "Decrement" [ref=f7e359] [cursor=pointer]
+            - generic: Adelanto
+          - generic [ref=f7e364]:
+            - paragraph [ref=f7e365]: Total
+            - heading "S/. 0.00" [level=6] [ref=f7e366]
+      - generic [ref=f7e367]:
+        - button "Cancelar" [ref=f7e368] [cursor=pointer]
+        - button "Registrar" [ref=f7e370] [cursor=pointer]
+  - generic [ref=f7e136]:
+    - banner [ref=f7e137]:
+      - toolbar [ref=f7e138]:
+        - button [ref=f7e139] [cursor=pointer]
+        - heading "GalasyApp" [level=6] [ref=f7e144]
+        - button [ref=f7e146] [cursor=pointer]
+        - button [ref=f7e153] [cursor=pointer]
+    - complementary [ref=f7e158]:
+      - navigation [ref=f7e160]:
+        - link "Dashboard" [ref=f7e162] [cursor=pointer]:
+          - /url: /
+        - link "Products" [ref=f7e168] [cursor=pointer]:
+          - /url: /products
+        - link "Analytics" [ref=f7e174] [cursor=pointer]:
+          - /url: /analytics
+        - navigation "Mantenimiento" [ref=f7e179]:
+          - button "Toggle Mantenimiento" [ref=f7e180] [cursor=pointer]:
+            - generic [ref=f7e185]: Mantenimiento
+        - separator [ref=f7e189]
+        - navigation "Administración" [ref=f7e190]:
+          - button "Toggle Administración" [ref=f7e191] [cursor=pointer]:
+            - generic [ref=f7e199]: Administración
+        - navigation "Configuración" [ref=f7e203]:
+          - button "Toggle Configuración" [ref=f7e204] [cursor=pointer]:
+            - generic [ref=f7e209]: Configuración
+        - separator [ref=f7e213]
+        - link "Acerca de" [ref=f7e215] [cursor=pointer]:
+          - /url: /about
+    - generic [ref=f7e222]:
+      - navigation "Breadcrumb" [ref=f7e223]:
+        - list [ref=f7e224]:
+          - listitem [ref=f7e225]:
+            - link "Mantenimiento" [ref=f7e226] [cursor=pointer]:
+              - /url: /mantenimiento
+          - listitem [aria-hidden] [ref=f7e227]:
+            - generic [ref=f7e228]: /
+          - listitem [ref=f7e229]:
+            - link "Pedidos":
+              - /url: /mantenimiento/pedido
+      - group [ref=f7e230]:
+        - generic [ref=f7e231]:
+          - heading "Pedidos" [level=4] [ref=f7e232]
+          - paragraph [ref=f7e233]: Consulte y administre los pedidos registrados.
+        - button "Nuevo pedido" [ref=f7e234] [cursor=pointer]
+      - generic [ref=f7e240]:
+        - group [ref=f7e241]:
+          - heading "Listado de pedidos" [level=6] [ref=f7e242]
+          - generic [ref=f7e243]: 0 registros
+        - table [ref=f7e248]:
+          - rowgroup [ref=f7e249]:
+            - row [ref=f7e250]:
+              - columnheader "ID" [ref=f7e251]
+              - columnheader "Cliente" [ref=f7e252]
+              - columnheader "Total" [ref=f7e253]
+              - columnheader "Adelanto" [ref=f7e254]
+              - columnheader "Saldo" [ref=f7e255]
+              - columnheader "Fecha" [ref=f7e256]
+              - columnheader "Acciones" [ref=f7e257]
+          - rowgroup [ref=f7e258]:
+            - row [ref=f7e259]:
+              - cell [ref=f7e260]:
+                - group [ref=f7e262]:
+                  - heading "Aun no hay pedidos registrados" [level=6] [ref=f7e266]
+                  - paragraph [ref=f7e267]: Registre el primer pedido para comenzar.
+                  - button "Nuevo pedido" [ref=f7e268] [cursor=pointer]

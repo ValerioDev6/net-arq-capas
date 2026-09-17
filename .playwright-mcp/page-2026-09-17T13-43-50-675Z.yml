@@ -1,0 +1,100 @@
+- generic [ref=f3e118]:
+  - banner [ref=f3e119]:
+    - toolbar [ref=f3e120]:
+      - button [ref=f3e121] [cursor=pointer]
+      - heading "GalasyApp" [level=6] [ref=f3e126]
+      - button [ref=f3e128] [cursor=pointer]
+      - button [ref=f3e135] [cursor=pointer]
+  - complementary [ref=f3e140]:
+    - navigation [ref=f3e142]:
+      - link "Dashboard" [ref=f3e144] [cursor=pointer]:
+        - /url: /
+      - link "Products" [ref=f3e150] [cursor=pointer]:
+        - /url: /products
+      - link "Analytics" [ref=f3e156] [cursor=pointer]:
+        - /url: /analytics
+      - navigation "Mantenimiento" [ref=f3e161]:
+        - button "Toggle Mantenimiento" [expanded] [ref=f3e162] [cursor=pointer]:
+          - generic [ref=f3e167]: Mantenimiento
+        - navigation [ref=f3e237]:
+          - link "Clientes" [ref=f3e239] [cursor=pointer]:
+            - /url: /mantenimiento/cliente
+          - link "Productos" [ref=f3e245] [cursor=pointer]:
+            - /url: /mantenimiento/producto
+          - link "Pedidos" [ref=f3e253] [cursor=pointer]:
+            - /url: /mantenimiento/pedido
+      - separator [ref=f3e171]
+      - navigation "Administración" [ref=f3e172]:
+        - button "Toggle Administración" [ref=f3e173] [cursor=pointer]:
+          - generic [ref=f3e181]: Administración
+      - navigation "Configuración" [ref=f3e185]:
+        - button "Toggle Configuración" [ref=f3e186] [cursor=pointer]:
+          - generic [ref=f3e191]: Configuración
+      - separator [ref=f3e195]
+      - link "Acerca de" [ref=f3e197] [cursor=pointer]:
+        - /url: /about
+  - generic [ref=f3e304]:
+    - navigation "Breadcrumb" [ref=f3e305]:
+      - list [ref=f3e306]:
+        - listitem [ref=f3e307]:
+          - link "Mantenimiento" [ref=f3e308] [cursor=pointer]:
+            - /url: /mantenimiento
+        - listitem [aria-hidden] [ref=f3e309]:
+          - generic [ref=f3e310]: /
+        - listitem [ref=f3e311]:
+          - link "Clientes" [ref=f3e312] [cursor=pointer]:
+            - /url: /mantenimiento/cliente
+        - listitem [aria-hidden] [ref=f3e313]:
+          - generic [ref=f3e314]: /
+        - listitem [ref=f3e315]:
+          - link "Registrar":
+            - /url: "#"
+    - generic [ref=f3e316]:
+      - heading "Registrar cliente" [level=6] [ref=f3e317]
+      - generic [ref=f3e319]:
+        - generic [ref=f3e321]:
+          - generic [ref=f3e322]:
+            - textbox "Razón social*" [ref=f3e327]
+            - group "Razón social"
+          - generic: Razón social*
+        - generic [ref=f3e330]:
+          - generic [ref=f3e331] [cursor=pointer]:
+            - combobox "Rubro" [ref=f3e414]: Comercio
+            - group "Rubro"
+          - generic: Rubro*
+        - generic [ref=f3e341]:
+          - generic [ref=f3e342] [cursor=pointer]:
+            - combobox "Tipo de documento" [ref=f3e347]
+            - group "Tipo de documento"
+          - generic: Tipo de documento*
+        - generic [ref=f3e349]:
+          - generic [ref=f3e350]:
+            - textbox "Número de documento" [ref=f3e358]
+            - group "Número de documento"
+          - generic: Número de documento
+        - generic [ref=f3e360]:
+          - generic [ref=f3e361]:
+            - textbox "Contacto*" [ref=f3e366]
+            - group "Contacto"
+          - generic: Contacto*
+        - generic [ref=f3e368]:
+          - generic [ref=f3e369]:
+            - textbox "Celular" [ref=f3e374]
+            - group "Celular"
+          - generic: Celular
+        - generic [ref=f3e376]:
+          - generic [ref=f3e377]:
+            - textbox "Dirección*" [ref=f3e382]
+            - group "Dirección"
+          - generic: Dirección*
+        - generic [ref=f3e384]:
+          - generic [ref=f3e385]:
+            - textbox "Correo electrónico*" [ref=f3e390]
+            - group "Correo electrónico"
+          - generic: Correo electrónico*
+        - generic [ref=f3e391]:
+          - separator [ref=f3e392]
+          - group [ref=f3e393]:
+            - link "Cancelar" [ref=f3e394] [cursor=pointer]:
+              - /url: /mantenimiento/cliente
+            - button "Registrar cliente" [ref=f3e400] [cursor=pointer]

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\Galasy.Pedidos.DataAccess\Galasy.Pedidos.DataAccess.csproj" />
+    <ProjectReference Include="..\..\Business\Galasy.Pedidos.Business\Galasy.Pedidos.Business.csproj" />
+    <ProjectReference Include="..\..\Common\Galasy.Pedidos.Common\Galasy.Pedidos.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MudBlazor" Version="9.10.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,65 @@
+- generic [ref=f4e2]:
+  - banner [ref=f4e3]:
+    - toolbar [ref=f4e4]:
+      - button [ref=f4e5] [cursor=pointer]
+      - heading "GalasyApp" [level=6] [ref=f4e10]
+      - button [ref=f4e12] [cursor=pointer]
+      - button [ref=f4e19] [cursor=pointer]
+  - complementary [ref=f4e24]:
+    - navigation [ref=f4e26]:
+      - link "Dashboard" [ref=f4e28] [cursor=pointer]:
+        - /url: /
+      - link "Products" [ref=f4e34] [cursor=pointer]:
+        - /url: /products
+      - link "Analytics" [ref=f4e40] [cursor=pointer]:
+        - /url: /analytics
+      - navigation "Mantenimiento" [ref=f4e45]:
+        - button "Toggle Mantenimiento" [ref=f4e46] [cursor=pointer]:
+          - generic [ref=f4e51]: Mantenimiento
+      - separator [ref=f4e55]
+      - navigation "Administración" [ref=f4e56]:
+        - button "Toggle Administración" [ref=f4e57] [cursor=pointer]:
+          - generic [ref=f4e65]: Administración
+      - navigation "Configuración" [ref=f4e69]:
+        - button "Toggle Configuración" [ref=f4e70] [cursor=pointer]:
+          - generic [ref=f4e75]: Configuración
+      - separator [ref=f4e79]
+      - link "Acerca de" [ref=f4e81] [cursor=pointer]:
+        - /url: /about
+  - generic [ref=f4e88]:
+    - navigation "Breadcrumb" [ref=f4e89]:
+      - list [ref=f4e90]:
+        - listitem [ref=f4e91]:
+          - link "Mantenimiento" [ref=f4e92] [cursor=pointer]:
+            - /url: /mantenimiento
+        - listitem [aria-hidden] [ref=f4e93]:
+          - generic [ref=f4e94]: /
+        - listitem [ref=f4e95]:
+          - link "Pedidos":
+            - /url: /mantenimiento/pedido
+    - group [ref=f4e96]:
+      - generic [ref=f4e97]:
+        - heading "Pedidos" [level=4] [ref=f4e98]
+        - paragraph [ref=f4e99]: Consulte y administre los pedidos registrados.
+      - button "Nuevo pedido" [ref=f4e100] [cursor=pointer]
+    - generic [ref=f4e106]:
+      - group [ref=f4e107]:
+        - heading "Listado de pedidos" [level=6] [ref=f4e108]
+        - generic [ref=f4e109]: 0 registros
+      - table [ref=f4e114]:
+        - rowgroup [ref=f4e115]:
+          - row [ref=f4e116]:
+            - columnheader "ID" [ref=f4e117]
+            - columnheader "Cliente" [ref=f4e118]
+            - columnheader "Total" [ref=f4e119]
+            - columnheader "Adelanto" [ref=f4e120]
+            - columnheader "Saldo" [ref=f4e121]
+            - columnheader "Fecha" [ref=f4e122]
+            - columnheader "Acciones" [ref=f4e123]
+        - rowgroup [ref=f4e124]:
+          - row [ref=f4e125]:
+            - cell [ref=f4e126]:
+              - group [ref=f4e128]:
+                - heading "Aun no hay pedidos registrados" [level=6] [ref=f4e132]
+                - paragraph [ref=f4e133]: Registre el primer pedido para comenzar.
+                - button "Nuevo pedido" [ref=f4e134] [cursor=pointer]

@@ -1,0 +1,26 @@
+.form-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.form-flex ::deep .form-flex-item {
+    flex: 1 1 320px;
+    min-width: 0;
+}
+
+.form-flex-footer {
+    flex: 1 1 100%;
+}
+
+.form-flex ::deep .mud-input-slot,
+.form-flex ::deep .mud-input-label,
+.form-flex ::deep .mud-input-helper-text {
+    font-size: 1.1rem;
+}
+
+/* Solo el asterisco marca lo obligatorio: se oculta el texto de validación */
+.form-flex ::deep .mud-input-helper-text.mud-input-error {
+    display: none !important;
+}

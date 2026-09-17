@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/deploy/">
+    <File Path="deploy\docker-compose.yml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Business/">
+    <Project Path="src/Business/Galasy.Pedidos.Business/Galasy.Pedidos.Business.csproj" />
+  </Folder>
+  <Folder Name="/src/Common/">
+    <Project Path="src/Common/Galasy.Pedidos.Common/Galasy.Pedidos.Common.csproj" />
+    <Project Path="src/Common/Galasy.Pedidos.DTO/Galasy.Pedidos.DTO.csproj" />
+  </Folder>
+  <Folder Name="/src/DataAccess/">
+    <Project Path="src/DataAccess/Galasy.Pedidos.DataAccess/Galasy.Pedidos.DataAccess.csproj" />
+    <Project Path="src/DataAccess/Galasy.Pedidos.Entities/Galasy.Pedidos.Entities.csproj" />
+  </Folder>
+  <Folder Name="/src/Database/">
+    <Project Path="src/Database/Galasy.Pedidos.Database/Galasy.Pedidos.Database.sqlproj" Type="42ea0dbd-9cf1-443e-919e-be9c484e4577" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="src/Presentation/Galasy.Pedidos.Presentation/Galasy.Pedidos.Presentation.csproj" />
+  </Folder>
+  <Folder Name="/src/Repositories/">
+    <Project Path="src/Repositories/Galasy.Pedidos.Repositories/Galasy.Pedidos.Repositories.csproj" />
+  </Folder>
+</Solution>

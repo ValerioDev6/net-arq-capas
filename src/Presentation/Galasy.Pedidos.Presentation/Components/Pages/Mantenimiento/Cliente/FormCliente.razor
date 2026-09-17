@@ -1,0 +1,181 @@
+@using Galasy.Pedidos.DTO.Request.Cliente
+@using Galasy.Pedidos.Entities
+@using Galasy.Pedidos.Repositories.Interfaces
+@inject IMaestroDetalleRepository MaestroDetalleRepository
+
+<MudForm @ref="_form">
+    @if (_cargandoRubros && _rubros.Count == 0)
+    {
+        <MudProgressLinear Color="Color.Primary" Class="mb-4" />
+    }
+
+    <div class="form-flex">
+        <MudTextField T="string"
+                      Class="form-flex-item"
+                      Label="Razón social"
+                      @bind-Value="Model.RazonSocial"
+                      For="@(() => Model.RazonSocial)"
+                      Required="true"
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Business" />
+
+        <MudSelect T="int"
+                   Class="form-flex-item"
+                   Label="Rubro"
+                   @bind-Value="Model.IdRubroMae"
+                   For="@(() => Model.IdRubroMae)"
+                   Required="true"
+                   Variant="Variant.Outlined"
+                   Adornment="Adornment.Start"
+                   AdornmentIcon="@Icons.Material.Filled.Category"
+                   Disabled="_rubros.Count == 0"
+                   HelperText="@HelperTextRubros">
+            @foreach (var rubro in _rubros)
+            {
+                <MudSelectItem T="int" Value="@rubro.Id">@rubro.Valor</MudSelectItem>
+            }
+        </MudSelect>
+
+        <MudSelect T="string"
+                   Class="form-flex-item"
+                   Label="Tipo de documento"
+                   @bind-Value="Model.TipoDocumento"
+                   For="@(() => Model.TipoDocumento)"
+                   Required="true"
+                   Variant="Variant.Outlined"
+                   Adornment="Adornment.Start"
+                   AdornmentIcon="@Icons.Material.Filled.LibraryBooks">
+            <MudSelectItem T="string" Value="@("DNI")">DNI</MudSelectItem>
+            <MudSelectItem T="string" Value="@("RUC")">RUC</MudSelectItem>
+            <MudSelectItem T="string" Value="@("CE")">CE</MudSelectItem>
+        </MudSelect>
+
+        <MudTextField T="string"
+                      Class="form-flex-item"
+                      Label="Número de documento"
+                      @bind-Value="Model.NumeroDocumento"
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Pin" />
+
+        <MudTextField T="string"
+                      Class="form-flex-item"
+                      Label="Contacto"
+                      @bind-Value="Model.Contacto"
+                      For="@(() => Model.Contacto)"
+                      Required="true"
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Person" />
+
+        <MudTextField T="string"
+                      Class="form-flex-item"
+                      Label="Celular"
+                      @bind-Value="Model.Celular"
+                      InputType="InputType.Telephone"
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Phone" />
+
+        <MudTextField T="string"
+                      Class="form-flex-item"
+                      Label="Dirección"
+                      @bind-Value="Model.Direccion"
+                      For="@(() => Model.Direccion)"
+                      Required="true"
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Place" />
+
+        <MudTextField T="string"
+                      Class="form-flex-item"
+                      Label="Correo electrónico"
+                      @bind-Value="Model.CorreoElectronico"
+                      For="@(() => Model.CorreoElectronico)"
+                      Required="true"
+                      InputType="InputType.Email"
+                      Variant="Variant.Outlined"
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Mail" />
+
+        <div class="form-flex-footer">
+            <MudDivider Class="my-4" />
+            <MudStack Row="true" Spacing="2" Justify="Justify.FlexEnd" AlignItems="AlignItems.Center">
+                <MudButton Href="@CancelHref"
+                           Variant="Variant.Outlined"
+                           StartIcon="@Icons.Material.Filled.Close">
+                    Cancelar
+                </MudButton>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.Save"
+                           OnClick="Submit"
+                           Disabled="_submitting">
+                    @SubmitText
+                </MudButton>
+            </MudStack>
+        </div>
+    </div>
+</MudForm>
+
+@code {
+    private const int MaestroRubroId = 1;
+
+    private string? HelperTextRubros => _rubros.Count == 0 ? "No hay rubros disponibles" : null;
+
+    private MudForm? _form;
+    private bool _submitting;
+    private bool _cargandoRubros;
+    private readonly List<MaestroDetalle> _rubros = [];
+
+    [Parameter]
+    public ClienteRequest Model { get; set; } = new();
+
+    [Parameter]
+    public string SubmitText { get; set; } = "Guardar";
+
+    [Parameter]
+    public string CancelHref { get; set; } = "/mantenimiento/cliente";
+
+    [Parameter]
+    public EventCallback<ClienteRequest> OnValidSubmit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cargandoRubros = true;
+        try
+        {
+            _rubros.AddRange(
+                await MaestroDetalleRepository.ListAsync(d => d.Estado && d.IdMaestro == MaestroRubroId));
+        }
+        finally
+        {
+            _cargandoRubros = false;
+        }
+    }
+
+    private async Task Submit()
+    {
+        if (_form is null)
+        {
+            return;
+        }
+
+        await _form.ValidateAsync();
+        if (!_form.IsValid)
+        {
+            return;
+        }
+
+        _submitting = true;
+        try
+        {
+            await OnValidSubmit.InvokeAsync(Model);
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+}

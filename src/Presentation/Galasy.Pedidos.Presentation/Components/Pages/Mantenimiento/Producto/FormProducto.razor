@@ -1,0 +1,122 @@
+@using Galasy.Pedidos.Business.Interfaces
+@using Galasy.Pedidos.DTO.Request.Producto
+@using Galasy.Pedidos.DTO.Response
+@using Galasy.Pedidos.Entities
+@inject IProductoService ProductoService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(EsEdicion ? "Editar producto" : "Nuevo producto")</MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudForm @ref="_form" Model="_model">
+            <MudTextField T="string"
+                          @bind-Value="_model.Nombre"
+                          Label="Nombre"
+                          Required="true"
+                          Class="mb-3" />
+
+            <MudTextField T="string"
+                          @bind-Value="_model.Descripcion"
+                          Label="Descripción"
+                          Class="mb-3" />
+
+            <MudSelect T="int"
+                       @bind-Value="_model.IdMarcaMae"
+                       Label="Marca"
+                       Required="true"
+                       Class="mb-3">
+                @foreach (var m in Marcas)
+                {
+                    <MudSelectItem T="int" Value="@m.Id">@m.Valor</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudSelect T="int"
+                       @bind-Value="_model.IdCategoriaMae"
+                       Label="Categoría"
+                       Required="true"
+                       Class="mb-3">
+                @foreach (var c in Categorias)
+                {
+                    <MudSelectItem T="int" Value="@c.Id">@c.Valor</MudSelectItem>
+                }
+            </MudSelect>
+
+            <MudNumericField T="decimal"
+                             @bind-Value="_model.PrecioUnitario"
+                             Label="Precio unitario"
+                             Min="0.01m"
+                             Adornment="Adornment.Start"
+                             AdornmentText="S/."
+                             Required="true"
+                             Class="mb-3" />
+
+            <MudNumericField T="int"
+                             @bind-Value="_model.Stock"
+                             Label="Stock"
+                             Min="0"
+                             Required="true"
+                             Class="mb-3" />
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancelar">Cancelar</MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Guardar">
+            @(EsEdicion ? "Actualizar" : "Registrar")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; } = default!;
+
+    [Parameter] public int ProductoId { get; set; }
+    [Parameter] public string Nombre { get; set; } = "";
+    [Parameter] public string? Descripcion { get; set; }
+    [Parameter] public int IdMarcaMae { get; set; }
+    [Parameter] public int IdCategoriaMae { get; set; }
+    [Parameter] public decimal PrecioUnitario { get; set; }
+    [Parameter] public int Stock { get; set; }
+    [Parameter] public List<MaestroDetalle> Marcas { get; set; } = [];
+    [Parameter] public List<MaestroDetalle> Categorias { get; set; } = [];
+    [Parameter] public bool EsEdicion { get; set; }
+
+    private MudForm? _form;
+    private readonly ProductoRequest _model = new();
+
+    protected override void OnInitialized()
+    {
+        _model.Nombre = Nombre;
+        _model.Descripcion = Descripcion;
+        _model.IdMarcaMae = IdMarcaMae;
+        _model.IdCategoriaMae = IdCategoriaMae;
+        _model.PrecioUnitario = PrecioUnitario;
+        _model.Stock = Stock;
+    }
+
+    private void Cancelar() => MudDialog.Cancel();
+
+    private async Task Guardar()
+    {
+        if (_form is null) return;
+        await _form.Validate();
+        if (!_form.IsValid) return;
+
+        BaseResponse response;
+        if (EsEdicion)
+        {
+            response = await ProductoService.UpdateProducto(ProductoId, _model);
+        }
+        else
+        {
+            response = await ProductoService.AddProducto(_model);
+        }
+
+        if (response.Success)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+}
